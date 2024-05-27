@@ -1,0 +1,59 @@
+import pygame
+import random
+
+# Initialize pygame
+pygame.init()
+
+# Screen dimensions
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 400
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Set up the display
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Coin Flip")
+
+# Load images
+heads_image = pygame.image.load('heads.png')
+tails_image = pygame.image.load('tails.png')
+
+# Scale images to fit the screen
+heads_image = pygame.transform.scale(heads_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+tails_image = pygame.transform.scale(tails_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Coin flip function
+def flip_coin():
+    return random.choice(['heads', 'tails'])
+
+# Main game loop
+def game_loop():
+    run = True
+    result = None
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    result = flip_coin()
+
+        screen.fill(BLACK)
+        
+        if result == 'heads':
+            screen.blit(heads_image, (0, 0))
+        elif result == 'tails':
+            screen.blit(tails_image, (0, 0))
+        else:
+            font = pygame.font.SysFont(None, 55)
+            text = font.render("Press SPACE to flip the coin", True, WHITE)
+            screen.blit(text, (20, SCREEN_HEIGHT // 2 - 20))
+
+        pygame.display.flip()
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    game_loop()
